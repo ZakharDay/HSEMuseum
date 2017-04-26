@@ -1,0 +1,15 @@
+<h2><%= link_to artwork.title, artwork %></h2>
+
+<p>
+  <strong>Year:</strong>
+  <%= artwork.year %>
+</p>
+
+<div>
+  <%= image_tag artwork.image %>
+</div>
+
+<%= link_to 'Edit', edit_artwork_path(artwork) %>
+<%= link_to 'Destroy', artwork, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+<hr>

@@ -17,3 +17,13 @@
 
 <%= link_to 'Edit', edit_artist_path(@artist) %> |
 <%= link_to 'Back', artists_path %>
+
+<hr>
+
+<%#= render 'artworks/index' %>
+
+<% @artworks.each do |artwork| %>
+  <%= render 'artworks/show', artwork: artwork %>
+<% end %>
+
+<%= render 'artworks/form', artwork: Artwork.new %>

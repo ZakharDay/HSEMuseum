@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Artist:</strong>
+  <%= Artist.find(@artwork.artist_id).name %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @artwork.title %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @artwork.year %>
+</p>
+
+<div>
+  <%= image_tag @artwork.image %>
+</div>
+
+<%= link_to 'Edit', edit_artwork_path(@artwork) %> |
+<%= link_to 'Back', artworks_path %>
