@@ -1,19 +1,29 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @gallery.title %>
-</p>
+<div style="<%= 'background-color: #' + @gallery.background %>">
+  <p>
+    <strong>Title:</strong>
+    <%= @gallery.title %>
+  </p>
 
-<p>
-  <strong>Teaser:</strong>
-  <%= @gallery.teaser %>
-</p>
+  <p>
+    <strong>Teaser:</strong>
+    <%= @gallery.teaser %>
+  </p>
 
-<p>
-  <strong>Background:</strong>
-  <%= @gallery.background %>
-</p>
+  <p>
+    <strong>Background:</strong>
+    <%= @gallery.background %>
+  </p>
 
-<%= link_to 'Edit', edit_gallery_path(@gallery) %> |
-<%= link_to 'Back', galleries_path %>
+  <%= link_to 'Edit', edit_gallery_path(@gallery) %> |
+  <%= link_to 'Back', galleries_path %>
+
+  <% @gallery.annotations.each do |annotation| %>
+    <%= render 'annotations/show', annotation: annotation %>
+  <% end %>
+
+  <% @gallery.artworks.each do |artwork| %>
+    <%= render 'artworks/show', artwork: artwork %>
+  <% end %>
+<div>

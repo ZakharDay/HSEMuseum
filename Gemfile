@@ -36,6 +36,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'carrierwave', '~> 1.0'
+gem 'devise'
+gem 'cancancan', '~> 1.10'
 
 
 group :development, :test do

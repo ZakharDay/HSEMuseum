@@ -1,4 +1,5 @@
 class ArtworksController < ApplicationController
+  load_and_authorize_resource
   before_action :set_artwork, only: [:show, :edit, :update, :destroy]
 
   # GET /artworks

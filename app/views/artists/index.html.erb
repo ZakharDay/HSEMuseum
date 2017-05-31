@@ -8,18 +8,21 @@
       <th>Name</th>
       <th>Born</th>
       <th>Died</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @artists.each do |artist| %>
       <tr>
-        <td><%= artist.name %></td>
+        <td><%= link_to artist.name, artist %></td>
         <td><%= artist.born %></td>
         <td><%= artist.died %></td>
-        <td><%= link_to 'Show', artist %></td>
-        <td><%= link_to 'Edit', edit_artist_path(artist) %></td>
+        <td>
+          <% if can? :update, artist %>
+            <%= link_to 'Edit', edit_artist_path(artist) %>
+          <% end %>
+        </td>
         <td><%= link_to 'Destroy', artist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
