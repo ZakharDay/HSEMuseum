@@ -15,12 +15,21 @@
   <tbody>
     <% @galleries.each do |gallery| %>
       <tr>
-        <td><%= gallery.title %></td>
+        <td><%= link_to gallery.title, gallery %></td>
         <td><%= gallery.teaser %></td>
         <td><%= gallery.background %></td>
-        <td><%= link_to 'Show', gallery %></td>
-        <td><%= link_to 'Edit', edit_gallery_path(gallery) %></td>
-        <td><%= link_to 'Destroy', gallery, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+        <td>
+          <% if can? :update, Gallery %>
+            <%= link_to 'Edit', edit_gallery_path(gallery) %>
+          <% end %>
+        </td>
+
+        <td>
+          <% if can? :destroy, Gallery %>
+            <%= link_to 'Destroy', gallery, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +37,6 @@
 
 <br>
 
-<%= link_to 'New Gallery', new_gallery_path %>
+<% if can? :create, Gallery %>
+  <%= link_to 'New Gallery', new_gallery_path %>
+<% end %>

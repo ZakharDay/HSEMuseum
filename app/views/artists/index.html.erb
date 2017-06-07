@@ -19,11 +19,14 @@
         <td><%= artist.born %></td>
         <td><%= artist.died %></td>
         <td>
-          <% if can? :update, artist %>
+          <% if can? :update, Artist %>
             <%= link_to 'Edit', edit_artist_path(artist) %>
           <% end %>
         </td>
-        <td><%= link_to 'Destroy', artist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if can? :destroy, Artist %>
+            <%= link_to 'Destroy', artist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -31,4 +34,6 @@
 
 <br>
 
-<%= link_to 'New Artist', new_artist_path %>
+<% if can? :create, Artist %>
+  <%= link_to 'New Artist', new_artist_path %>
+<% end %>

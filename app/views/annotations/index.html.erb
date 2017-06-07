@@ -17,8 +17,18 @@
         <td><%= annotation.body %></td>
         <td><%= annotation.gallery_id %></td>
         <td><%= link_to 'Show', annotation %></td>
-        <td><%= link_to 'Edit', edit_annotation_path(annotation) %></td>
-        <td><%= link_to 'Destroy', annotation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+        <td>
+          <% if can? :update, Annotation %>
+            <%= link_to 'Edit', edit_annotation_path(annotation) %>
+          <% end %>
+        </td>
+
+        <td>
+          <% if can? :destroy, Annotation %>
+            <%= link_to 'Destroy', annotation, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +36,6 @@
 
 <br>
 
-<%= link_to 'New Annotation', new_annotation_path %>
+<% if can? :create, Annotation %>
+  <%= link_to 'New Annotation', new_annotation_path %>
+<% end %>

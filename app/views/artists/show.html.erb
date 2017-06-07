@@ -15,8 +15,9 @@
   <%= @artist.died %>
 </p>
 
-<%= link_to 'Edit', edit_artist_path(@artist) %> |
-<%= link_to 'Back', artists_path %>
+<% if can? :update, Artist %>
+  <%= link_to 'Edit', edit_artist_path(@artist) %>
+<% end %>
 
 <hr>
 

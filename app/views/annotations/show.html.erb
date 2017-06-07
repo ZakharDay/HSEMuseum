@@ -10,5 +10,6 @@
   <%= @annotation.gallery_id %>
 </p>
 
-<%= link_to 'Edit', edit_annotation_path(@annotation) %> |
-<%= link_to 'Back', annotations_path %>
+<% if can? :update, Annotation %>
+  <%= link_to 'Edit', edit_annotation_path(@annotation) %>
+<% end %>

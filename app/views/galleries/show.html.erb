@@ -16,8 +16,9 @@
     <%= @gallery.background %>
   </p>
 
-  <%= link_to 'Edit', edit_gallery_path(@gallery) %> |
-  <%= link_to 'Back', galleries_path %>
+  <% if can? :update, Gallery %>
+    <%= link_to 'Edit', edit_gallery_path(@gallery) %>
+  <% end %>
 
   <% @gallery.annotations.each do |annotation| %>
     <%= render 'annotations/show', annotation: annotation %>

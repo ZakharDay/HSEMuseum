@@ -19,5 +19,6 @@
   <%= image_tag @artwork.image %>
 </div>
 
-<%= link_to 'Edit', edit_artwork_path(@artwork) %> |
-<%= link_to 'Back', artworks_path %>
+<% if can? :update, Artwork %>
+  <%= link_to 'Edit', edit_artwork_path(@artwork) %>
+<% end %>
