@@ -15,6 +15,7 @@
         <%= link_to 'Artworks',    artworks_url %>
         <%= link_to 'Galleries',   galleries_url %>
         <%= link_to 'Annotations', annotations_url %>
+        <%= link_to 'Users',       users_index_url if can? :index, User %>
       </div>
 
       <div>

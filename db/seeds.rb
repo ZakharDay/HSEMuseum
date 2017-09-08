@@ -5,6 +5,30 @@ Rake::Task['db:drop'].invoke
 Rake::Task['db:create'].invoke
 Rake::Task['db:migrate'].invoke
 
+@users = [
+  {
+    email: 'admin@admin.com',
+    role: 'admin'
+  },
+  {
+    email: 'moderator@moderator.com',
+    role: 'moderator'
+  },
+  {
+    email: 'content@content.com',
+    role: 'content'
+  },
+  {
+    email: 'user@user.com',
+    role: 'user'
+  },
+  {
+    email: 'banned@user.com',
+    role: 'user',
+    banned: true
+  }
+]
+
 # Set Fake Data
 @artists = [
   {
@@ -87,6 +111,19 @@ def random_color
 end
 
 # Create Methods
+def create_user(user)
+  password = 'testtest'
+  banned = user[:banned] ? user[:banned] : false
+
+  User.create(
+    email:    user[:email],
+    role:     user[:role],
+    banned:   banned,
+    password: password,
+    password_confirmation: password
+  )
+end
+
 def create_artist(artist)
   Artist.create(
     name: artist[:name],
@@ -125,6 +162,11 @@ def create_annotation(gallery, annotation)
 end
 
 # Seed Database With Fake Data
+@users.each do |user|
+  u = create_user(user)
+  puts "User with email #{u.email} created"
+end
+
 @artists.each do |artist|
   a = create_artist(artist)
   puts "Artist #{a.id} created"
