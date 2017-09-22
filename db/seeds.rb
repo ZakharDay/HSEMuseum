@@ -115,7 +115,7 @@ def create_user(user)
   password = 'testtest'
   banned = user[:banned] ? user[:banned] : false
 
-  User.create(
+  User.create!(
     email:    user[:email],
     role:     user[:role],
     banned:   banned,
@@ -133,31 +133,34 @@ def create_artist(artist)
 end
 
 def create_artwork
-  Artwork.create(
+  Artwork.create!(
     artist_id: random_artist_id,
     title:     @artwork_titles.sample,
     year:      artwork_year,
-    image:     upload_fake_image
+    image:     upload_fake_image,
+    user_id:   User.all.sample.id
   )
 end
 
 def create_gallery(gallery)
-  Gallery.create(
+  Gallery.create!(
     title:      gallery[:title],
     teaser:     gallery[:teaser],
-    background: random_color
+    background: random_color,
+    user_id:    User.all.sample.id
   )
 end
 
 def create_exhibition(gallery, artwork)
-  gallery.exhibitions.create(
+  gallery.exhibitions.create!(
     artwork_id: artwork.id
   )
 end
 
 def create_annotation(gallery, annotation)
-  gallery.annotations.create(
-    body: annotation
+  gallery.annotations.create!(
+    body:    annotation,
+    user_id: User.all.sample.id
   )
 end
 
