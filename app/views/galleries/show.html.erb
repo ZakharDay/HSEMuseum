@@ -1,30 +1,22 @@
-<p id="notice"><%= notice %></p>
+<section class="galleryWrapper" style="<%= 'background-color: #' + @gallery.background %>">
+  <header>
+    <h1>
+      <%= @gallery.title %>
+    </h1>
 
-<div style="<%= 'background-color: #' + @gallery.background %>">
-  <p>
-    <strong>Title:</strong>
-    <%= @gallery.title %>
-  </p>
+    <% if can? :update, Gallery %>
+      <%= link_to 'Edit', edit_gallery_path(@gallery), class: 'editButton' %>
+    <% end %>
+  </header>
 
-  <p>
-    <strong>Teaser:</strong>
-    <%= @gallery.teaser %>
-  </p>
+  <section class="galleryContainer">
+    <% @gallery.annotations.each do |annotation| %>
+      <%= render 'annotations/show', annotation: annotation %>
+    <% end %>
 
-  <p>
-    <strong>Background:</strong>
-    <%= @gallery.background %>
-  </p>
+    <% @gallery.artworks.each do |artwork| %>
+      <%= render 'artworks/show', artwork: artwork %>
+    <% end %>
+  </section>
 
-  <% if can? :update, Gallery %>
-    <%= link_to 'Edit', edit_gallery_path(@gallery) %>
-  <% end %>
-
-  <% @gallery.annotations.each do |annotation| %>
-    <%= render 'annotations/show', annotation: annotation %>
-  <% end %>
-
-  <% @gallery.artworks.each do |artwork| %>
-    <%= render 'artworks/show', artwork: artwork %>
-  <% end %>
-<div>
+</section>
