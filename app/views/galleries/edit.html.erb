@@ -1,3 +1,29 @@
+<section class="galleryWrapper" style="<%= 'background-color: #' + @gallery.background %>">
+  <header>
+    <h1>
+      <%= @gallery.title %>
+    </h1>
+
+    <% if can? :show, Gallery %>
+      <%= link_to 'Show', gallery_path(@gallery), class: 'editButton' %>
+    <% end %>
+  </header>
+
+  <section class="galleryContainer">
+    <% @gallery.annotations.each do |annotation| %>
+      <%= render 'annotations/show', annotation: annotation %>
+    <% end %>
+
+    <% @gallery.artworks.each do |artwork| %>
+      <%= render 'artworks/show', artwork: artwork %>
+    <% end %>
+  </section>
+
+</section>
+
+
+
+
 <h1>Editing Gallery</h1>
 
 <%= render 'form', gallery: @gallery %>

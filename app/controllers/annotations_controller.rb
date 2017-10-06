@@ -45,6 +45,7 @@ class AnnotationsController < ApplicationController
       if @annotation.update(annotation_params)
         format.html { redirect_to @annotation, notice: 'Annotation was successfully updated.' }
         format.json { render :show, status: :ok, location: @annotation }
+        format.js   { render :show }
       else
         format.html { render :edit }
         format.json { render json: @annotation.errors, status: :unprocessable_entity }
