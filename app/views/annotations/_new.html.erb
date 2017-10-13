@@ -16,8 +16,11 @@
     <%= f.text_area :body %>
   </div>
 
+  <%= f.hidden_field :gallery_id, value: @gallery.id %>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+
   <div class="actions">
     <%= f.submit %>
-    <%= link_to 'Cancel', annotation, remote: true %>
+    <%= link_to 'Cancel', new_link_annotation_path, remote: true %>
   </div>
 <% end %>

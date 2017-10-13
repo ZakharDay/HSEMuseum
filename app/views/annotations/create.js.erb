@@ -1,0 +1,2 @@
+$('#galleryAnnotation_new').html("<%= j render 'annotations/new_link' %>")
+$('#galleryAnnotation_new').after("<%= j render 'annotations/show', annotation: @annotation, gallery_template: 'edit' %>")

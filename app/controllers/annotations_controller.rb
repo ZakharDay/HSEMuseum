@@ -13,8 +13,12 @@ class AnnotationsController < ApplicationController
   def show
   end
 
+  def new_link
+  end
+
   # GET /annotations/new
   def new
+    @gallery = Gallery.find(params[:gallery_id])
     @annotation = Annotation.new
   end
 
@@ -29,8 +33,11 @@ class AnnotationsController < ApplicationController
 
     respond_to do |format|
       if @annotation.save
+        @gallery = @annotation.gallery
+
         format.html { redirect_to @annotation, notice: 'Annotation was successfully created.' }
         format.json { render :show, status: :created, location: @annotation }
+        format.js   { render :create }
       else
         format.html { render :new }
         format.json { render json: @annotation.errors, status: :unprocessable_entity }
@@ -45,7 +52,7 @@ class AnnotationsController < ApplicationController
       if @annotation.update(annotation_params)
         format.html { redirect_to @annotation, notice: 'Annotation was successfully updated.' }
         format.json { render :show, status: :ok, location: @annotation }
-        format.js   { render :show }
+        format.js   { render :update }
       else
         format.html { render :edit }
         format.json { render json: @annotation.errors, status: :unprocessable_entity }

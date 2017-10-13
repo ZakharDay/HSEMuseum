@@ -10,7 +10,11 @@
   </header>
 
   <section class="galleryContainer">
-    <% @gallery.annotations.each do |annotation| %>
+    <div class="galleryAnnotation" id="galleryAnnotation_new">
+      <%= render 'annotations/new_link' %>
+    </div>
+
+    <% @gallery.annotations.reverse.each do |annotation| %>
       <%= render 'annotations/show', annotation: annotation, gallery_template: 'edit' %>
     <% end %>
 

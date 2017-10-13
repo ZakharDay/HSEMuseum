@@ -2,8 +2,14 @@ Rails.application.routes.draw do
   get 'users/index'
 
   devise_for :users
+
+  get 'annotations/new_link', as: 'new_link_annotation'
   resources :annotations
-  resources :galleries
+
+  resources :galleries do
+    resources :annotations
+  end
+
   resources :artworks
   resources :artists
   root 'artists#index'
