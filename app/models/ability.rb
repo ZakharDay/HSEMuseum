@@ -17,6 +17,7 @@ class Ability
       can :manage, :all
       cannot [:create, :update, :destroy], Artist
       cannot :index, User
+      cannot :index, Annotation
     else
       can :read, :all
       cannot :index, User

@@ -11,7 +11,7 @@
 
   <section class="galleryContainer">
     <% @gallery.annotations.each do |annotation| %>
-      <%= render 'annotations/show', annotation: annotation %>
+      <%= render 'annotations/show', annotation: annotation, gallery_template: 'edit' %>
     <% end %>
 
     <% @gallery.artworks.each do |artwork| %>
