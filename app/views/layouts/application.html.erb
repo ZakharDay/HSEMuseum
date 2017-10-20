@@ -11,9 +11,9 @@
   <body>
     <nav>
       <div>
-        <%= link_to 'Artists',     artists_url %>
-        <%= link_to 'Artworks',    artworks_url %>
-        <%= link_to 'Galleries',   galleries_url %>
+        <%= link_to 'Artists',     artists_url     if can? :index, Artist %>
+        <%= link_to 'Artworks',    artworks_url    if can? :index, Artwork %>
+        <%= link_to 'Galleries',   galleries_url   if can? :index, Gallery %>
         <%= link_to 'Annotations', annotations_url if can? :index, Annotation %>
         <%= link_to 'Users',       users_index_url if can? :index, User %>
       </div>

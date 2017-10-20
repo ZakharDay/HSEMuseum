@@ -14,10 +14,9 @@ class Ability
       can :manage, :all
       cannot :index, User
     elsif user.role == 'user'
-      can :manage, :all
-      cannot [:create, :update, :destroy], Artist
-      cannot :index, User
-      cannot :index, Annotation
+      can :read, [Artist, Gallery]
+      can :manage, [Gallery, Annotation, Artwork], user_id: user.id
+      cannot :index, [Annotation, Gallery]
     else
       can :read, :all
       cannot :index, User

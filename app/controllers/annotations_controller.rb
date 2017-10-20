@@ -29,15 +29,24 @@ class AnnotationsController < ApplicationController
   # POST /annotations
   # POST /annotations.json
   def create
-    @annotation = Annotation.new(add_user_id(annotation_params))
+    composed_params = add_user_id(annotation_params)
+    composed_params = add_gallery_id(composed_params, gallery_params)
+    @annotation = Annotation.new(composed_params)
 
     respond_to do |format|
-      if @annotation.save
-        @gallery = @annotation.gallery
+      gallery = Gallery.find(gallery_params)
 
-        format.html { redirect_to @annotation, notice: 'Annotation was successfully created.' }
-        format.json { render :show, status: :created, location: @annotation }
-        format.js   { render :create }
+      if gallery.user_id == current_user.id
+        if @annotation.save
+          @gallery = @annotation.gallery
+
+          format.html { redirect_to @annotation, notice: 'Annotation was successfully created.' }
+          format.json { render :show, status: :created, location: @annotation }
+          format.js   { render :create }
+        else
+          format.html { render :new }
+          format.json { render json: @annotation.errors, status: :unprocessable_entity }
+        end
       else
         format.html { render :new }
         format.json { render json: @annotation.errors, status: :unprocessable_entity }
@@ -79,6 +88,10 @@ class AnnotationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def annotation_params
-      params.require(:annotation).permit(:body, :gallery_id)
+      params.require(:annotation).permit(:body)
+    end
+
+    def gallery_params
+      params.require(:gallery_id)
     end
 end

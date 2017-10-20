@@ -4,7 +4,7 @@
       <%= @gallery.title %>
     </h1>
 
-    <% if can? :update, Gallery %>
+    <% if can? :manage, @gallery %>
       <%= link_to 'Edit', edit_gallery_path(@gallery), class: 'editButton' %>
     <% end %>
   </header>
