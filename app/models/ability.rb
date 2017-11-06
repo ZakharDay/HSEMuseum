@@ -16,7 +16,7 @@ class Ability
     elsif user.role == 'user'
       can :read, [Artist, Gallery]
       can :manage, [Gallery, Annotation, Artwork], user_id: user.id
-      cannot :index, [Annotation, Gallery]
+      cannot :index, Annotation
     else
       can :read, :all
       cannot :index, User

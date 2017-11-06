@@ -1,6 +1,6 @@
 <p><%= annotation.body %></p>
 
 <% if gallery_template == 'edit' %>
-  <%= link_to 'Edit', edit_annotation_path(annotation), remote: true %>
-  <%= link_to 'Destroy', annotation, method: :delete, data: { confirm: 'Are you sure?' }, remote: true %>
+  <%= link_to 'Edit', edit_gallery_annotation_path(@gallery, annotation), remote: true %>
+  <%= link_to 'Destroy', [@gallery, annotation], method: :delete, data: { confirm: 'Are you sure?' }, remote: true %>
 <% end %>

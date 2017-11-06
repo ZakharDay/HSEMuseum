@@ -160,7 +160,7 @@ end
 def create_annotation(gallery, annotation)
   gallery.annotations.create!(
     body:    annotation,
-    user_id: User.all.sample.id
+    user_id: gallery.user_id
   )
 end
 
