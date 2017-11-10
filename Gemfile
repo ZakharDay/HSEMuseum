@@ -38,6 +38,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'carrierwave', '~> 1.0'
 gem 'devise'
 gem 'cancancan', '~> 1.10'
+gem 'jquery-ui-rails'
 
 
 group :development, :test do

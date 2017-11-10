@@ -3,11 +3,16 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  get 'annotations/new_link', as: 'new_link_annotation'
   resources :annotations
 
   resources :galleries do
-    resources :annotations
+    resources :annotations do
+      get 'new_link', as: 'new_link_annotation'
+
+      collection do
+        post :sort
+      end
+    end
   end
 
   resources :artworks

@@ -10,7 +10,7 @@
   </header>
 
   <section class="galleryContainer">
-    <% @gallery.annotations.reverse.each do |annotation| %>
+    <% @gallery.annotations.order('position').each do |annotation| %>
       <%= render 'annotations/show', annotation: annotation, gallery_template: 'show' %>
     <% end %>
 

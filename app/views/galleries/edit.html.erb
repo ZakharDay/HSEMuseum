@@ -9,12 +9,12 @@
     <% end %>
   </header>
 
-  <section class="galleryContainer">
-    <div class="galleryAnnotation" id="galleryAnnotation_new">
-      <%= render 'annotations/new_link' %>
-    </div>
+  <section class="galleryContainer" data-update-url="<%= sort_gallery_annotations_url(@gallery) %>">
+    <!-- <div class="galleryAnnotation" id="galleryAnnotation_new"> -->
+      <%#= render 'annotations/new_link' %>
+    <!-- </div> -->
 
-    <% @gallery.annotations.reverse.each do |annotation| %>
+    <% @gallery.annotations.order('position').each do |annotation| %>
       <%= render 'annotations/show', annotation: annotation, gallery_template: 'edit' %>
     <% end %>
 

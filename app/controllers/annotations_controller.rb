@@ -1,7 +1,7 @@
 class AnnotationsController < ApplicationController
   load_and_authorize_resource
   before_action :set_annotation, only: [:show, :edit, :update, :destroy]
-  before_action :set_gallery, only: [:new, :edit, :create, :update, :destroy]
+  before_action :set_gallery, except: :index
 
   # GET /annotations
   # GET /annotations.json
@@ -69,6 +69,17 @@ class AnnotationsController < ApplicationController
       format.json { head :no_content }
       format.js
     end
+  end
+
+  def sort
+    params['galleryAnnotation'].each_with_index do |id, index|
+      # Annotation.update_all({ position: index + 1, id: id })
+
+      annotation = Annotation.find(id)
+      annotation.update_attribute(:position, index + 1)
+    end
+
+    render nothing: true
   end
 
   private
