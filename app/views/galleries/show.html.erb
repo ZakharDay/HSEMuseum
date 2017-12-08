@@ -10,13 +10,6 @@
   </header>
 
   <section class="galleryContainer">
-    <% @gallery.annotations.order('position').each do |annotation| %>
-      <%= render 'annotations/show', annotation: annotation, gallery_template: 'show' %>
-    <% end %>
-
-    <% @gallery.artworks.each do |artwork| %>
-      <%= render 'artworks/show', artwork: artwork %>
-    <% end %>
+    <%= render 'items', gallery_items: @gallery_items, gallery_template: 'show' %>
   </section>
-
 </section>

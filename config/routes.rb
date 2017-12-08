@@ -4,15 +4,20 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :annotations
+  resources :exhibitions
 
   resources :galleries do
-    resources :annotations do
-      get 'new_link', as: 'new_link_annotation'
+    member do
+      post :sort_items
+    end
 
+    resources :annotations do
       collection do
-        post :sort
+        get :new_link, as: :new_link_annotation
       end
     end
+
+    resources :exhibitions, only: [:create, :destroy]
   end
 
   resources :artworks

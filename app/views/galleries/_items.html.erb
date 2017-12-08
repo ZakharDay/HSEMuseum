@@ -1,0 +1,9 @@
+<% gallery_items.each do |gallery_item| %>
+  <% item_class = gallery_item.class.to_s.downcase %>
+
+  <% if item_class == 'annotation' %>
+    <%= render 'annotations/show', annotation: gallery_item, gallery_template: gallery_template %>
+  <% elsif item_class == 'exhibition' %>
+    <%= render 'artworks/show', exhibition: gallery_item, artwork: gallery_item.artwork %>
+  <% end %>
+<% end %>

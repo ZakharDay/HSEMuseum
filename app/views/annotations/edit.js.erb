@@ -1,1 +1,3 @@
-$('#galleryAnnotation_<%= @annotation.id %>').html("<%= j render 'annotations/edit', annotation: @annotation %>")
+$('.galleryAnnotation#gallery_item_<%= @annotation.id %>').html("<%= j render 'annotations/edit', annotation: @annotation %>")
+$('.handle').fadeOut()
+$('.separator').fadeOut()

@@ -20,13 +20,13 @@
         <td><%= gallery.background %></td>
 
         <td>
-          <% if can? :update, Gallery %>
+          <% if can? :update, gallery %>
             <%= link_to 'Edit', edit_gallery_path(gallery) %>
           <% end %>
         </td>
 
         <td>
-          <% if can? :destroy, Gallery %>
+          <% if can? :destroy, gallery %>
             <%= link_to 'Destroy', gallery, method: :delete, data: { confirm: 'Are you sure?' } %>
           <% end %>
         </td>

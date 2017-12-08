@@ -35,6 +35,8 @@ class AnnotationsController < ApplicationController
 
     respond_to do |format|
       if @annotation.save
+        @new_annotation = @gallery.annotations.new
+
         format.html { redirect_to @annotation, notice: 'Annotation was successfully created.' }
         format.json { render :show, status: :created, location: @annotation }
         format.js   { render :create }
@@ -64,22 +66,12 @@ class AnnotationsController < ApplicationController
   # DELETE /annotations/1.json
   def destroy
     @annotation.destroy
+    
     respond_to do |format|
       format.html { redirect_to annotations_url, notice: 'Annotation was successfully destroyed.' }
       format.json { head :no_content }
       format.js
     end
-  end
-
-  def sort
-    params['galleryAnnotation'].each_with_index do |id, index|
-      # Annotation.update_all({ position: index + 1, id: id })
-
-      annotation = Annotation.find(id)
-      annotation.update_attribute(:position, index + 1)
-    end
-
-    render nothing: true
   end
 
   private

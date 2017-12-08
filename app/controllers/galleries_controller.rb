@@ -1,6 +1,7 @@
 class GalleriesController < ApplicationController
   load_and_authorize_resource
   before_action :set_gallery, only: [:show, :edit, :update, :destroy]
+  before_action :set_gallery_items, only: [:show, :edit]
 
   # GET /galleries
   # GET /galleries.json
@@ -20,6 +21,8 @@ class GalleriesController < ApplicationController
 
   # GET /galleries/1/edit
   def edit
+    @annotation = @gallery.annotations.new
+    @artworks = Artwork.all
   end
 
   # POST /galleries
@@ -62,10 +65,32 @@ class GalleriesController < ApplicationController
     end
   end
 
+  def sort_items
+    params['gallery_items'].each_with_index do |gallery_item, index|
+      type = gallery_item[1][0]
+      id = gallery_item[1][1]
+
+      if type == 'annotation'
+        gallery_item_object = Annotation.find(id)
+      elsif type == 'exhibition'
+        gallery_item_object = Exhibition.find(id)
+      end
+
+      gallery_item_object.update_attribute(:position, index + 1)
+    end
+
+    render nothing: true
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_gallery
       @gallery = Gallery.find(params[:id])
+    end
+
+    def set_gallery_items
+      @gallery_items = @gallery.annotations + @gallery.exhibitions
+      @gallery_items = @gallery_items.sort_by(&:position)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

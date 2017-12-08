@@ -14,3 +14,12 @@ nav {
   line-height: 40px;
   background: rgba(255,255,255,.5);
 }
+
+.link {
+  display: inline;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

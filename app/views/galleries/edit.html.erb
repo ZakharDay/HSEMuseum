@@ -4,25 +4,31 @@
       <%= @gallery.title %>
     </h1>
 
-    <% if can? :show, Gallery %>
+    <% if can? :show, @gallery %>
       <%= link_to 'Show', gallery_path(@gallery), class: 'editButton' %>
     <% end %>
   </header>
 
-  <section class="galleryContainer" data-update-url="<%= sort_gallery_annotations_url(@gallery) %>">
-    <!-- <div class="galleryAnnotation" id="galleryAnnotation_new"> -->
-      <%#= render 'annotations/new_link' %>
-    <!-- </div> -->
+  <div id="galleryAnnotation_new">
+    <%= render 'annotations/new', annotation: @annotation %>
+  </div>
 
-    <% @gallery.annotations.order('position').each do |annotation| %>
-      <%= render 'annotations/show', annotation: annotation, gallery_template: 'edit' %>
-    <% end %>
+  <section class="galleryContainer" data-update-url="<%= sort_items_gallery_url(@gallery) %>" data-create-exhibition-url="<%= gallery_exhibitions_url(@gallery) %>">
+    <div class="galleryZeroAnnotation">
+      <div class="separator">
+        <%= render 'annotations/new_link' %>
+      </div>
+    </div>
 
-    <% @gallery.artworks.each do |artwork| %>
-      <%= render 'artworks/show', artwork: artwork %>
-    <% end %>
+    <%#= render 'items', gallery_items: @gallery_items, gallery_template: 'edit' %>
+    <%= render partial: 'items', locals: { gallery_items: @gallery_items, gallery_template: 'edit' } %>
   </section>
 
+  <section class="artworksContainer">
+    <% @artworks.each do |artwork| %>
+      <%= render 'artworks/mock', artwork: artwork %>
+    <% end %>
+  </section>
 </section>
 
 

@@ -142,12 +142,12 @@ def create_artwork
   )
 end
 
-def create_gallery(gallery)
+def create_gallery(gallery, user_id)
   Gallery.create!(
     title:      gallery[:title],
     teaser:     gallery[:teaser],
     background: random_color,
-    user_id:    User.all.sample.id
+    user_id:    user_id
   )
 end
 
@@ -180,8 +180,9 @@ end
   puts "Artwork #{artwork.id} created"
 end
 
-@galleries.each do |gallery|
-  g = create_gallery(gallery)
+User.all.each do |user|
+  gallery = @galleries.sample
+  g = create_gallery(gallery, user.id)
   puts "Gallery #{g.id} created"
 end
 
@@ -189,14 +190,20 @@ end
 
 Gallery.all.each do |gallery|
   5..20.times do
-    e = create_exhibition(gallery, @artworks.sample)
-    puts "Gallery #{gallery.id} artwork #{e.artwork_id} exhibition #{e.id} created"
+    artwork = @artworks.sample
+    gallery_artworks = Gallery.find(gallery.id).artworks
+
+    unless gallery_artworks.include?(artwork)
+      e = create_exhibition(gallery, artwork)
+      puts "Gallery #{gallery.id} artwork #{e.artwork_id} exhibition #{e.id} created"
+    end
   end
 
   2..5.times do
     a = create_annotation(gallery, @annotations.sample)
     puts "Gallery #{gallery.id} annotation #{a.id} created"
   end
+
 end
 
 finish = Time.now

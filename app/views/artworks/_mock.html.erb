@@ -1,4 +1,4 @@
-<div class="galleryItem galleryArtwork" id="gallery_item_<%= exhibition.id %>">
+<div class="galleryItem galleryArtwork mock" id="artwork_item_<%= artwork.id %>">
   <div class="content">
     <div class="handle"></div>
 
@@ -12,7 +12,7 @@
     <%= image_tag artwork.image %>
 
     <%#= link_to 'Edit', edit_artwork_path(artwork) %>
-    <%= link_to 'Destroy', exhibition, method: :delete, data: { confirm: 'Are you sure?' }, remote: true %>
+    <%#= link_to 'Destroy', exhibition, method: :delete, data: { confirm: 'Are you sure?' }, remote: true %>
   </div>
 
   <div class="separator">

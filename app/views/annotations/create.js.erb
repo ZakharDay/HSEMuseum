@@ -1,2 +1,11 @@
-$('#galleryAnnotation_new').html("<%= j render 'annotations/new_link' %>")
-$('#galleryAnnotation_new').after("<%= j render 'annotations/show', annotation: @annotation, gallery_template: 'edit' %>")
+var formContainer = $('#galleryAnnotation_new')
+var galleryContainer = $('.galleryContainer')
+
+formContainer.after("<%= j render 'annotations/show', annotation: @annotation, gallery_template: 'edit' %>")
+galleryContainer.before(formContainer)
+formContainer.html("<%= j render 'annotations/new', annotation: @new_annotation %>")
+
+$('.handle').fadeIn()
+$('.separator').fadeIn()
+updateGalleryItemsPosition()
+addNewAnnotationLinkClick()

@@ -1,0 +1,3 @@
+$("#artwork_item_<%= @exhibition.artwork_id %>").replaceWith("<%= j render 'artworks/show', exhibition: @exhibition, artwork: @exhibition.artwork %>")
+updateGalleryItemsPosition()
+addNewAnnotationLinkClick()
