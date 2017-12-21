@@ -20,15 +20,11 @@
       </div>
     </div>
 
-    <%#= render 'items', gallery_items: @gallery_items, gallery_template: 'edit' %>
-    <%= render partial: 'items', locals: { gallery_items: @gallery_items, gallery_template: 'edit' } %>
+    <%#= render partial: 'items', locals: { gallery_items: @gallery_items, gallery_template: 'edit' } %>
+    <%= render 'items', gallery_items: @gallery_items, gallery_template: 'edit' %>
   </section>
 
-  <section class="artworksContainer">
-    <% @artworks.each do |artwork| %>
-      <%= render 'artworks/mock', artwork: artwork %>
-    <% end %>
-  </section>
+  <%= render 'artworks_container', artworks: @artworks %>
 </section>
 
 

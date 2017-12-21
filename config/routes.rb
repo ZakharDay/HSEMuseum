@@ -3,9 +3,6 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :annotations
-  resources :exhibitions
-
   resources :galleries do
     member do
       post :sort_items

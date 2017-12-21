@@ -22,7 +22,7 @@ class GalleriesController < ApplicationController
   # GET /galleries/1/edit
   def edit
     @annotation = @gallery.annotations.new
-    @artworks = Artwork.all
+    @artworks = Artwork.all - @gallery.artworks
   end
 
   # POST /galleries

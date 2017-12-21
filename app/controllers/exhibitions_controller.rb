@@ -19,6 +19,8 @@ class ExhibitionsController < ApplicationController
   def destroy
     @exhibition = Exhibition.find(params[:id])
     @exhibition.destroy
+    @gallery = Gallery.find(params[:gallery_id])
+    @artworks = Artwork.all - @gallery.artworks
 
     respond_to do |format|
       format.js

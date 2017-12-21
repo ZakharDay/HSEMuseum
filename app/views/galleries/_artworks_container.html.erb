@@ -1,0 +1,7 @@
+<section class="artworksContainer">
+  <section class="artworksRail">
+    <% artworks.each do |artwork| %>
+      <%= render 'artworks/show', artwork: artwork %>
+    <% end %>
+  </section>
+</section>

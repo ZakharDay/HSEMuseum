@@ -1,2 +1,4 @@
 $('.galleryArtwork#gallery_item_<%= @exhibition.id %>').remove()
+$('.artworksContainer').replaceWith("<%= j render 'galleries/artworks_container', artworks: @artworks %>")
 updateGalleryItemsPosition()
+makeArtworksDraggable()

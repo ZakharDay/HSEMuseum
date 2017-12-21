@@ -1,39 +1,48 @@
 function updateGalleryItemsPosition() {
   var galleryItemsData = []
   var galleryItems = $('.galleryItem')
-  var artworkMock = $('.galleryContainer .mock')
+  var artwork = $('.galleryContainer .galleryArtwork')
 
-  if (artworkMock.length) {
-    var elementClass = artworkMock.attr('class')
-    var elementId = artworkMock.attr('id')
-    var findARID = /\d+/g
-    var elementARID = elementId.match(findARID)[0]
-
-    $.post(
-      $('.galleryContainer').data('create-exhibition-url'),
-      { artwork_id: elementARID }
-    )
+  if (artwork.length) {
+    var elementARID = getGalleryItemId(artwork)
+    createExhibition(elementARID)
   } else {
     galleryItems.each(function(index) {
-      var elementClass = $(this).attr('class')
-      var elementId = $(this).attr('id')
-      var findARID = /\d+/g
-      var elementARID = elementId.match(findARID)[0]
+      var elementARID = getGalleryItemId($(this))
 
-      if (elementClass == 'galleryItem galleryAnnotation') {
+      if ($(this).hasClass('galleryAnnotation')) {
         galleryItemsData.push(['annotation', elementARID])
-      } else if (elementClass == 'galleryItem galleryArtwork') {
+      } else if ($(this).hasClass('galleryExhibition')) {
         galleryItemsData.push(['exhibition', elementARID])
       } else {
         console.error('Element with unknown class')
       }
     })
 
-    $.post(
-      $('.galleryContainer').data('update-url'),
-      { gallery_items: galleryItemsData }
-    )
+    sortGalleryItems(galleryItemsData)
   }
+}
+
+function getGalleryItemId(element) {
+  var elementId = element.attr('id')
+  var findARID = /\d+/g
+  var elementARID = elementId.match(findARID)[0]
+
+  return elementARID
+}
+
+function createExhibition(artworkId) {
+  $.post(
+    $('.galleryContainer').data('create-exhibition-url'),
+    { artwork_id: artworkId }
+  )
+}
+
+function sortGalleryItems(data) {
+  $.post(
+    $('.galleryContainer').data('update-url'),
+    { gallery_items: data }
+  )
 }
 
 function addNewAnnotationLinkClick() {
@@ -69,6 +78,14 @@ function addRemoveFormLinkClick() {
   })
 }
 
+function makeArtworksDraggable() {
+  $('.artworksContainer .galleryItem').draggable({
+    connectToSortable: '.galleryContainer',
+    revert: 'invalid'
+    // stack: '.artworksContainer .galleryItem'
+  }).disableSelection()
+}
+
 $(function() {
   $('.galleryContainer').sortable({
     axis: 'x',
@@ -76,12 +93,8 @@ $(function() {
     update: function() {
       updateGalleryItemsPosition()
     }
-  })
+  }).disableSelection()
 
-  $('.artworksContainer .galleryItem').draggable({
-    connectToSortable: '.galleryContainer'
-  })
-
-  $('.galleryContainer').disableSelection()
+  makeArtworksDraggable()
   addNewAnnotationLinkClick()
 })
