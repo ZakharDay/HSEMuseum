@@ -1,0 +1,9 @@
+<%#= JSON.generate(@gallery_items.collect { |gallery_item| gallery_item.to_json }) %>
+
+<%=
+  react_component("GalleryEdit", {
+    background:   @gallery.background,
+    title:        @gallery.title,
+    galleryItems: JSON.generate(@gallery_items.collect { |gallery_item| gallery_item.to_json })
+  })
+%>

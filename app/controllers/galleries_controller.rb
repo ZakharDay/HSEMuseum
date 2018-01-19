@@ -23,6 +23,8 @@ class GalleriesController < ApplicationController
   def edit
     @annotation = @gallery.annotations.new
     @artworks = Artwork.all - @gallery.artworks
+
+    render 'edit_react'
   end
 
   # POST /galleries
@@ -89,8 +91,7 @@ class GalleriesController < ApplicationController
     end
 
     def set_gallery_items
-      @gallery_items = @gallery.annotations + @gallery.exhibitions
-      @gallery_items = @gallery_items.sort_by(&:position)
+      @gallery_items = (@gallery.annotations + @gallery.exhibitions.includes(:artwork)).sort_by(&:position)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
