@@ -53,29 +53,11 @@
     .galleryZeroAnnotation {
       position: relative;
       display: flex;
-      width: 350px;
-      min-width: 350px;
+      width: 310px;
+      min-width: 310px;
 
       .content {
-        width: calc(350px - 40px);
-      }
-
-      .separator {
-        display: flex;
-        justify-content: center;
-        width: 40px;
-        min-width: 40px;
-        height: 100%;
-        // background-color: white;
-
-        .newAnnotationLink {
-          @include square(24px);
-          line-height: 24px;
-          background: black;
-          color: white;
-          text-align: center;
-          opacity: 0;
-        }
+        // width: calc(350px - 40px);
       }
 
       &.newElementHover {
@@ -127,6 +109,25 @@
       img {
         width: 100%;
       }
+    }
+  }
+
+  .separator {
+    display: flex;
+    justify-content: center;
+    width: 40px;
+    min-width: 40px;
+    height: 100%;
+    min-height: 500px;
+    // background-color: white;
+
+    .newAnnotationLink {
+      @include square(24px);
+      line-height: 24px;
+      background: black;
+      color: white;
+      text-align: center;
+      opacity: 0;
     }
   }
 
