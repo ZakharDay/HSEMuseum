@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :galleries do
     member do
       post :sort_items
+      post :sort_items_from_react
     end
 
     resources :annotations do

@@ -16,8 +16,6 @@ class GalleryEdit extends React.Component {
   }
 
   sortGalleryItems(dropZonePosition) {
-    // const { currentItemPosition } = this.state
-
     const currentItemPosition = parseInt(this.state.currentItemPosition)
     dropZonePosition = parseInt(dropZonePosition)
 
@@ -29,54 +27,49 @@ class GalleryEdit extends React.Component {
         galleryItems[item.position] = item
       })
     } else {
-      Object.keys(this.state.galleryItems).forEach(function(index) {
+      let galleryItemsKeys = Object.keys(this.state.galleryItems)
+      let galleryItemsArray = []
 
-        index = parseInt(index)
-        console.log(index, dropZonePosition, currentItemPosition)
-        let item = self.state.galleryItems[index]
+      if (dropZonePosition > currentItemPosition) {
+        dropZonePosition = dropZonePosition - 1
+      }
 
-        if (dropZonePosition < currentItemPosition) {
-          if (index < dropZonePosition) {
-            galleryItems[item.position] = item
-          } else if (index == dropZonePosition) {
-            let currentElement = self.state.galleryItems[currentItemPosition]
-            currentElement.position = item.position + 1
-            galleryItems[item.position] = item
-            galleryItems[item.position + 1] = currentElement
-          } else if (index > dropZonePosition && index < currentItemPosition) {
-            item.position = item.position + 1
-            galleryItems[item.position] = item
-          } else if (index > dropZonePosition && index > currentItemPosition) {
-            galleryItems[item.position] = item
-          } else {
-            console.log('Moved element', item)
-          }
-        } else {
-          if (index < currentItemPosition) {
-            galleryItems[item.position] = item
-          } else if (index == currentItemPosition) {
-            console.log('Empty slot')
-          } else if (index > currentItemPosition && index < dropZonePosition) {
-            console.log('Test')
-            item.position = item.position - 1
-            galleryItems[item.position] = item
-          } else if (index == dropZonePosition) {
-            let currentElement = self.state.galleryItems[currentItemPosition]
-            currentElement.position = item.position + 1
-            galleryItems[item.position] = item
-            galleryItems[item.position + 1] = currentElement
-          } else if (index > dropZonePosition) {
-            galleryItems[item.position] = item
-          } else {
-            console.log('Else')
-          }
-        }
+      galleryItemsKeys.splice(currentItemPosition - 1, 1)
+      galleryItemsKeys.splice(dropZonePosition, 0, currentItemPosition)
 
+      galleryItemsKeys.forEach(function(key, index) {
+        let item = self.state.galleryItems[key]
+        index = parseInt(index) + 1
+        item.position = index
+        galleryItems[index] = item
+      })
+
+      Object.keys(galleryItems).forEach(function(key) {
+        galleryItemsArray.push(galleryItems[key])
+      })
+
+      this.ajaxPost(this.props.url, {
+        gallery_items: galleryItemsArray
       })
     }
 
     this.setState({
       galleryItems: galleryItems
+    })
+  }
+
+  ajaxPost(url, data) {
+    $.ajax({
+      dataType: "json",
+      method: "POST",
+      url: url,
+      data: data
+    }).done(function(data, textStatus, jqXHR) {
+      console.log("done", data, textStatus, jqXHR)
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("error", jqXHR, textStatus, errorThrown)
+    }).always(function() {
+      console.log("complete")
     })
   }
 
@@ -107,6 +100,10 @@ class GalleryEdit extends React.Component {
     let elements = []
     let self = this
 
+    elements.push(
+      <div className="separator" key="firstDropZone" data-position={ 0 } onDragOver={ self.over } onDrop={ self.drop }></div>
+    )
+
     Object.keys(this.state.galleryItems).forEach(function(index) {
       let item = self.state.galleryItems[index]
 
@@ -121,13 +118,9 @@ class GalleryEdit extends React.Component {
             </div>
           </div>
         )
-
-        elements.push(
-          <div className="separator" key={ "s" + index } data-position={ item.position } onDragOver={ self.over } onDrop={ self.drop }></div>
-        )
       } else {
         elements.push(
-          <div className="galleryItem galleryAnnotation" key={ index }>
+          <div className="galleryItem galleryAnnotation" key={ index }  data-position={ item.position } draggable="true" onDragStart={ self.drag }>
             <div className="content">
               <div className="handle"></div>
               <p>{ item.body }</p>
@@ -135,25 +128,19 @@ class GalleryEdit extends React.Component {
           </div>
         )
       }
+
+      elements.push(
+        <div className="separator" key={ "s" + index } data-position={ item.position } onDragOver={ self.over } onDrop={ self.drop }></div>
+      )
     })
 
     return elements
   }
 
-  // renderGalleryItem(item) {
-  //   return(
-  //     <div>
-  //       { item }
-  //     </div>
-  //   )
-  // }
-
   render() {
     let styles = {
       backgroundColor: '#' + this.props.background
     }
-
-    let test = ['a', 'b', 'c']
 
     return (
       <section className="galleryWrapper" style={ styles }>
