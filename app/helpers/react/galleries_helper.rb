@@ -1,0 +1,2 @@
+module React::GalleriesHelper
+end

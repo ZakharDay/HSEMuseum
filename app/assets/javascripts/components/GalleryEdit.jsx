@@ -48,8 +48,12 @@ class GalleryEdit extends React.Component {
         galleryItemsArray.push(galleryItems[key])
       })
 
+      console.log(JSON.stringify(galleryItemsArray))
+
       this.ajaxPost(this.props.url, {
-        gallery_items: galleryItemsArray
+        gallery: {
+          gallery_items: JSON.stringify(galleryItemsArray)
+        }
       })
     }
 

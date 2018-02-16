@@ -3,10 +3,17 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  namespace :react do
+    resources :galleries do
+      member do
+        post :sort_items
+      end
+    end
+  end
+
   resources :galleries do
     member do
       post :sort_items
-      post :sort_items_from_react
     end
 
     resources :annotations do

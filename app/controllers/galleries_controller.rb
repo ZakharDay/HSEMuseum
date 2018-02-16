@@ -23,8 +23,6 @@ class GalleriesController < ApplicationController
   def edit
     @annotation = @gallery.annotations.new
     @artworks = Artwork.all - @gallery.artworks
-
-    render 'edit_react'
   end
 
   # POST /galleries
@@ -82,26 +80,6 @@ class GalleriesController < ApplicationController
     end
 
     render nothing: true
-  end
-
-  def sort_items_from_react
-    params['gallery_items'].each do |gallery_item_key|
-      gallery_item = params['gallery_items'][gallery_item_key]
-      id = nil
-      position = nil
-      gallery_item_object = nil
-
-      gallery_item.each do |parameter_key|
-        id = gallery_item[parameter_key] if parameter_key == 'id'
-        position = gallery_item[parameter_key] if parameter_key == 'position'
-        gallery_item_object = Exhibition.find(id) if parameter_key == 'artwork_id'
-        gallery_item_object = Annotation.find(id) if parameter_key == 'body'
-      end
-
-      gallery_item_object.update_attribute(:position, position)
-    end
-
-    render json: {}, status: :ok
   end
 
   private
