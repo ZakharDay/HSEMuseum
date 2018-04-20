@@ -6,4 +6,8 @@ class ApplicationController < ActionController::Base
     params[:user_id] = current_user.id
     params
   end
+
+  def not_found
+    logger.debug "RECORD NOT FOUND"
+  end
 end

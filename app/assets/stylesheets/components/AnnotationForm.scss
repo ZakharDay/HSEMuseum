@@ -1,0 +1,34 @@
+.AnnotationForm {
+  textarea {
+    width: 300px;
+    height: 300px;
+  }
+
+  .action {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+
+    * {
+      cursor: pointer;
+    }
+
+    .submitButton {
+      padding: 10px;
+      background-color: blue;
+      color: white;
+      border-radius: 3px;
+      user-select: none;
+
+      &.disabled {
+        background-color: grey;
+        cursor: not-allowed;
+      }
+    }
+
+    .cancelLink {
+      margin-left: 10px;
+      text-decoration: underline;
+    }
+  }
+}

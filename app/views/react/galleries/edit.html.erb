@@ -4,7 +4,10 @@
   react_component("GalleryEdit", {
     background:   @gallery.background,
     title:        @gallery.title,
-    galleryItems: JSON.generate(@gallery_items.collect { |gallery_item| gallery_item.to_json }),
-    url:          sort_items_react_gallery_url(@gallery)
+    galleryItems: @gallery_items_props,
+    urls: {
+      sortGalleryItemsURL: sort_items_react_gallery_url(@gallery),
+      createAnnotationURL: react_gallery_annotations_url(@gallery)
+    }
   })
 %>

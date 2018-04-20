@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       member do
         post :sort_items
       end
+
+      resources :annotations, only: [:create, :show]
     end
   end
 
