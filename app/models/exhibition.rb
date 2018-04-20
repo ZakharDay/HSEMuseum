@@ -6,6 +6,7 @@ class Exhibition < ApplicationRecord
 
   def to_json
     {
+      type: 'artwork',
       id: id,
       artwork_id: artwork_id,
       position: position,

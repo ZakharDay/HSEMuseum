@@ -19,7 +19,7 @@ class GalleryDropZone extends React.Component {
 
     return(
       <div className="GalleryDropZone" onDragOver={ handleDragOver } onDrop={ this.handleDrop }>
-        <NewAnnotationArea position={ position } handleSubmitClick={ handleNewAnnotationSubmitClick } />
+        <NewAnnotationButton handleClick={ this.handleNewFormClick } />
       </div>
     )
   }

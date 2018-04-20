@@ -5,6 +5,7 @@ class Annotation < ApplicationRecord
 
   def to_json
     {
+      type: 'annotation',
       id: id,
       body: body,
       position: position

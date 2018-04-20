@@ -5,7 +5,6 @@ class GalleryEdit extends React.Component {
     this.state = {
       galleryItems: [],
       currentItemPosition: 0,
-      newAnnotationAreaView: 'button',
       error: ''
     }
 
@@ -138,47 +137,47 @@ class GalleryEdit extends React.Component {
     e.preventDefault()
   }
 
-  handleNewAnnotationSubmitClick(text, position) {
-    // const { createAnnotationURL } = this.props.urls
-    const { sortGalleryItemsURL } = this.props.urls
-    // const virtualId = this.generateVirtualId()
-    const galleryItems = this.addGalleryItem(position, { body: text, id: 0 })
+  // handleNewAnnotationSubmitClick(text, position) {
+  //   // const { createAnnotationURL } = this.props.urls
+  //   const { sortGalleryItemsURL } = this.props.urls
+  //   // const virtualId = this.generateVirtualId()
+  //   const galleryItems = this.addGalleryItem(position, { body: text, id: 0 })
+  //
+  //   this.setState({
+  //     currentItemPosition: 0,
+  //     galleryItems: galleryItems
+  //   })
+  //
+  //   this.ajaxPost(sortGalleryItemsURL, {
+  //     gallery: {
+  //       gallery_items: JSON.stringify(galleryItems)
+  //     }
+  //   })
+  // }
 
-    this.setState({
-      currentItemPosition: 0,
-      galleryItems: galleryItems
-    })
-
-    this.ajaxPost(sortGalleryItemsURL, {
-      gallery: {
-        gallery_items: JSON.stringify(galleryItems)
-      }
-    })
-  }
-
-  handleEditAnnotationSubmitClick(text, position) {
-    // const { createAnnotationURL } = this.props.urls
-    const { sortGalleryItemsURL } = this.props.urls
-    // const virtualId = this.generateVirtualId()
-    // const galleryItems = this.addGalleryItem(position, { body: text, id: 0 })
-
-    galleryItems.forEach(function(item, index) {
-      if (item.position == position) {
-        item.body = text
-      }
-    })
-
-    this.setState({
-      currentItemPosition: 0,
-      galleryItems: galleryItems
-    })
-
-    this.ajaxPost(sortGalleryItemsURL, {
-      gallery: {
-        gallery_items: JSON.stringify(galleryItems)
-      }
-    })
-  }
+  // handleEditAnnotationSubmitClick(text, position) {
+  //   // const { createAnnotationURL } = this.props.urls
+  //   const { sortGalleryItemsURL } = this.props.urls
+  //   // const virtualId = this.generateVirtualId()
+  //   // const galleryItems = this.addGalleryItem(position, { body: text, id: 0 })
+  //
+  //   galleryItems.forEach(function(item, index) {
+  //     if (item.position == position) {
+  //       item.body = text
+  //     }
+  //   })
+  //
+  //   this.setState({
+  //     currentItemPosition: 0,
+  //     galleryItems: galleryItems
+  //   })
+  //
+  //   this.ajaxPost(sortGalleryItemsURL, {
+  //     gallery: {
+  //       gallery_items: JSON.stringify(galleryItems)
+  //     }
+  //   })
+  // }
 
   // generateVirtualId() {
   //   return Math.random().toString(36).substr(2, 16)
@@ -213,7 +212,7 @@ class GalleryEdit extends React.Component {
     )
 
     galleryItems.forEach(function(item, index) {
-      if (typeof item.artwork_id !== 'undefined') {
+      if (item.type == 'artwork') {
         elements.push(
           <GalleryArtwork
             key={ index }
@@ -221,7 +220,9 @@ class GalleryEdit extends React.Component {
             actions={ actions }
           />
         )
-      } else {
+      }
+
+      if (item.type == 'annotation') {
         elements.push(
           <GalleryAnnotation
             key={ index }
@@ -229,6 +230,22 @@ class GalleryEdit extends React.Component {
             actions={ actions }
           />
         )
+      }
+
+      if (item.type == 'newAnnotation') {
+        <AnnotationForm
+          position={ position }
+          handleSubmitClick={ this.handleSubmitClick }
+          handleCancelClick={ this.handleCancelClick }
+        />
+      }
+
+      if (item.type == 'editAnnotation') {
+        <AnnotationForm
+          position={ position }
+          handleSubmitClick={ this.handleSubmitClick }
+          handleCancelClick={ this.handleCancelClick }
+        />
       }
 
       elements.push(

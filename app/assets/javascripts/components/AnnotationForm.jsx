@@ -2,10 +2,6 @@ class AnnotationForm extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      text: ''
-    }
-
     this.handleTextChange  = this.handleTextChange.bind(this)
     this.handleSubmitClick = this.handleSubmitClick.bind(this)
     this.handleCancelClick = this.handleCancelClick.bind(this)
@@ -15,9 +11,9 @@ class AnnotationForm extends React.Component {
   }
 
   handleTextChange(e) {
-    this.setState({
-      text: e.target.value
-    })
+    // this.setState({
+    //   text: e.target.value
+    // })
   }
 
   handleSubmitClick() {
