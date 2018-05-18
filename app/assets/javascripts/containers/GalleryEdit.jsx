@@ -4,16 +4,17 @@ class GalleryEdit extends React.Component {
 
     this.state = {
       galleryItems: [],
-      currentItemPosition: 0,
       error: ''
     }
 
-    this.handleDragStart = this.handleDragStart.bind(this)
-    this.handleDrop = this.handleDrop.bind(this)
-    this.handleDragOver = this.handleDragOver.bind(this)
-    this.handleNewAnnotationSubmitClick = this.handleNewAnnotationSubmitClick.bind(this)
-    this.handleEditAnnotationSubmitClick = this.handleEditAnnotationSubmitClick.bind(this)
-    this.handleEditAnnotationCancelClick = this.handleEditAnnotationCancelClick.bind(this)
+    this.handleDragStart             = this.handleDragStart.bind(this)
+    this.handleDragOver              = this.handleDragOver.bind(this)
+    this.handleDrop                  = this.handleDrop.bind(this)
+    this.handleAnnotationNewClick    = this.handleAnnotationNewClick.bind(this)
+    this.handleAnnotationEditClick   = this.handleAnnotationEditClick.bind(this)
+    this.handleAnnotationTextChange  = this.handleAnnotationTextChange.bind(this)
+    this.handleAnnotationSubmitClick = this.handleAnnotationSubmitClick.bind(this)
+    this.handleAnnotationCancelClick = this.handleAnnotationCancelClick.bind(this)
   }
 
   componentDidMount() {
@@ -45,14 +46,84 @@ class GalleryEdit extends React.Component {
     return data
   }
 
-  addGalleryItem(dropZonePosition, item) {
-    const { currentItemPosition, galleryItems } = this.state
-    let nextGalleryItems = galleryItems
+  newGalleryItem(item) {
+    let { galleryItems } = this.state
+    const { position } = item
 
-    nextGalleryItems.splice(dropZonePosition, 0, item)
-    nextGalleryItems = this.setPositionOnGalleryItems(nextGalleryItems)
+    const updatedItem = {
+      id:       '',
+      type:     'newAnnotation',
+      body:     '',
+      nextBody: ''
+    }
 
-    return nextGalleryItems
+    galleryItems.splice(position, 0, updatedItem)
+    galleryItems = this.setPositionOnGalleryItems(galleryItems)
+
+    return galleryItems
+  }
+
+  editGalleryItem(item) {
+    let { galleryItems } = this.state
+    const { id, body, position } = item
+
+    const updatedItem = {
+      id:       id,
+      type:     'editAnnotation',
+      body:     body,
+      nextBody: body,
+      position: position
+    }
+
+    galleryItems.splice(position - 1, 1, updatedItem)
+
+    return galleryItems
+  }
+
+  changeTextGalleryItem(item) {
+    let { galleryItems } = this.state
+    galleryItems.splice(item.position - 1, 1, item)
+
+    return galleryItems
+  }
+
+  cancelGalleryItem(item) {
+    let { galleryItems } = this.state
+    const { id, type, body, position } = item
+
+    if (type == 'editAnnotation') {
+      const updatedItem = {
+        id:       id,
+        type:     'annotation',
+        body:     body,
+        nextBody: '',
+        position: position
+      }
+
+      galleryItems.splice(position - 1, 1, updatedItem)
+    } else {
+      galleryItems.splice(position - 1, 1)
+      galleryItems = this.setPositionOnGalleryItems(galleryItems)
+    }
+
+    return galleryItems
+  }
+
+  createOrUpdateGalleryItem(item) {
+    let { galleryItems } = this.state
+    const { id, nextBody, position } = item
+
+    const updatedItem = {
+      id:       id,
+      type:     'annotation',
+      body:     nextBody,
+      nextBody: '',
+      position: position
+    }
+
+    galleryItems.splice(position - 1, 1, updatedItem)
+
+    return galleryItems
   }
 
   moveGalleryItem(dropZonePosition) {
@@ -96,7 +167,6 @@ class GalleryEdit extends React.Component {
       console.log("done", data, textStatus, jqXHR)
 
       self.setState({
-        currentItemPosition: 0,
         galleryItems: data,
         error: ''
       })
@@ -118,7 +188,7 @@ class GalleryEdit extends React.Component {
   }
 
   handleDrop(position) {
-    const { sortGalleryItemsURL } = this.props.urls
+    const { updateGalleryItemsURL } = this.props.urls
     const galleryItems = this.moveGalleryItem(position)
 
     this.setState({
@@ -126,7 +196,7 @@ class GalleryEdit extends React.Component {
       galleryItems: galleryItems
     })
 
-    this.ajaxPost(sortGalleryItemsURL, {
+    this.ajaxPost(updateGalleryItemsURL, {
       gallery: {
         gallery_items: JSON.stringify(galleryItems)
       }
@@ -137,77 +207,74 @@ class GalleryEdit extends React.Component {
     e.preventDefault()
   }
 
-  // handleNewAnnotationSubmitClick(text, position) {
-  //   // const { createAnnotationURL } = this.props.urls
-  //   const { sortGalleryItemsURL } = this.props.urls
-  //   // const virtualId = this.generateVirtualId()
-  //   const galleryItems = this.addGalleryItem(position, { body: text, id: 0 })
-  //
-  //   this.setState({
-  //     currentItemPosition: 0,
-  //     galleryItems: galleryItems
-  //   })
-  //
-  //   this.ajaxPost(sortGalleryItemsURL, {
-  //     gallery: {
-  //       gallery_items: JSON.stringify(galleryItems)
-  //     }
-  //   })
-  // }
+  handleAnnotationNewClick(item) {
+    const galleryItems = this.newGalleryItem(item)
 
-  // handleEditAnnotationSubmitClick(text, position) {
-  //   // const { createAnnotationURL } = this.props.urls
-  //   const { sortGalleryItemsURL } = this.props.urls
-  //   // const virtualId = this.generateVirtualId()
-  //   // const galleryItems = this.addGalleryItem(position, { body: text, id: 0 })
-  //
-  //   galleryItems.forEach(function(item, index) {
-  //     if (item.position == position) {
-  //       item.body = text
-  //     }
-  //   })
-  //
-  //   this.setState({
-  //     currentItemPosition: 0,
-  //     galleryItems: galleryItems
-  //   })
-  //
-  //   this.ajaxPost(sortGalleryItemsURL, {
-  //     gallery: {
-  //       gallery_items: JSON.stringify(galleryItems)
-  //     }
-  //   })
-  // }
+    this.setState({
+      galleryItems: galleryItems
+    })
+  }
 
-  // generateVirtualId() {
-  //   return Math.random().toString(36).substr(2, 16)
-  // }
+  handleAnnotationEditClick(item) {
+    const galleryItems = this.editGalleryItem(item)
+
+    this.setState({
+      galleryItems: galleryItems
+    })
+  }
+
+  handleAnnotationTextChange(item) {
+    const galleryItems = this.changeTextGalleryItem(item)
+
+    this.setState({
+      galleryItems: galleryItems
+    })
+  }
+
+  handleAnnotationSubmitClick(item) {
+    const galleryItems = this.createOrUpdateGalleryItem(item)
+    const { updateGalleryItemsURL } = this.props.urls
+
+    this.setState({
+      galleryItems: galleryItems
+    })
+
+    this.ajaxPost(updateGalleryItemsURL, {
+      gallery: {
+        gallery_items: JSON.stringify(galleryItems)
+      }
+    })
+  }
+
+  handleAnnotationCancelClick(item) {
+    const galleryItems = this.cancelGalleryItem(item)
+
+    this.setState({
+      galleryItems: galleryItems
+    })
+  }
 
   renderGalleryItems() {
-    const {
-      handleDragStart,
-      handleDragOver,
-      handleDrop,
-      handleNewAnnotationSubmitClick
-    } = this
-
     const actions = {
-      handleDragStart: handleDragStart,
-      handleDragOver: handleDragOver,
-      handleDrop: handleDrop,
-      handleNewAnnotationSubmitClick: handleNewAnnotationSubmitClick,
-      handleEditAnnotationSubmitClick: handleEditAnnotationSubmitClick,
-      handleEditAnnotationCancelClick: handleEditAnnotationCancelClick
+      handleDragStart:             this.handleDragStart,
+      handleDragOver:              this.handleDragOver,
+      handleDrop:                  this.handleDrop,
+      handleAnnotationNewClick:    this.handleAnnotationNewClick,
+      handleAnnotationEditClick:   this.handleAnnotationEditClick,
+      handleAnnotationTextChange:  this.handleAnnotationTextChange,
+      handleAnnotationSubmitClick: this.handleAnnotationSubmitClick,
+      handleAnnotationCancelClick: this.handleAnnotationCancelClick
     }
 
     const { galleryItems } = this.state
+    const firstDropZoneItem = { position: 0 }
     let elements = []
 
     elements.push(
       <GalleryDropZone
-        position={ 0 }
-        actions={ actions }
         key="firstDropZone"
+        item={ firstDropZoneItem }
+        actions={ actions }
       />
     )
 
@@ -232,27 +299,21 @@ class GalleryEdit extends React.Component {
         )
       }
 
-      if (item.type == 'newAnnotation') {
-        <AnnotationForm
-          position={ position }
-          handleSubmitClick={ this.handleSubmitClick }
-          handleCancelClick={ this.handleCancelClick }
-        />
-      }
-
-      if (item.type == 'editAnnotation') {
-        <AnnotationForm
-          position={ position }
-          handleSubmitClick={ this.handleSubmitClick }
-          handleCancelClick={ this.handleCancelClick }
-        />
+      if (item.type == 'newAnnotation' || item.type == 'editAnnotation') {
+        elements.push(
+          <AnnotationForm
+            key={ index }
+            item={ item }
+            actions={ actions }
+          />
+        )
       }
 
       elements.push(
         <GalleryDropZone
-          position={ item.position }
+          key={ "dz" + index }
+          item={ item }
           actions={ actions }
-          key={ "s" + index }
         />
       )
     })

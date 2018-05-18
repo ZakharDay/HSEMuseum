@@ -9,8 +9,10 @@ class NewAnnotationButton extends React.Component {
   }
 
   handleClick() {
-    console.log(this.props)
-    this.props.handleClick()
+    const { item, actions } = this.props
+    const { handleAnnotationNewClick } = actions
+
+    handleAnnotationNewClick(item)
   }
 
   render() {

@@ -10,8 +10,12 @@ class React::GalleriesController < ApplicationController
     JSON.parse(gallery_params['gallery_items']).each_with_index do |gallery_item, index|
       if gallery_item['id']
         id = gallery_item['id'].to_i
+        body = ''
+        updated_object = {}
 
         if gallery_item.key?('artwork_id')
+          updated_object = { position: index + 1 }
+
           begin
             gallery_item_object = Exhibition.find(id)
           rescue ActiveRecord::RecordNotFound => error
@@ -19,6 +23,12 @@ class React::GalleriesController < ApplicationController
             logger.debug error
           end
         else
+          body = gallery_item['body']
+          updated_object = { body: body, position: index + 1 }
+
+          logger.debug 'BODY FROM PARAMS'
+          logger.debug body
+
           begin
             gallery_item_object = Annotation.find(id)
           rescue ActiveRecord::RecordNotFound => error
@@ -28,10 +38,8 @@ class React::GalleriesController < ApplicationController
         end
 
         if gallery_item_object
-          gallery_item_object.update_attribute(:position, index + 1)
+          gallery_item_object.update_attributes(updated_object)
         else
-          body = gallery_item['body']
-          position = gallery_item['position']
           annotation = @gallery.annotations.create!(body: body, position: index + 1, user_id: current_user.id)
         end
       end

@@ -1,6 +1,9 @@
 .GalleryAnnotation {
-  position: relative;
-  display: flex;
   width: 310px;
   min-width: 310px;
+
+  .editLink {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }

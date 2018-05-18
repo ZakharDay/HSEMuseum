@@ -11,40 +11,51 @@ class AnnotationForm extends React.Component {
   }
 
   handleTextChange(e) {
-    // this.setState({
-    //   text: e.target.value
-    // })
+    let { item } = this.props
+    const { id, type, body, nextBody, position } = item
+    const { actions } = this.props
+    const { handleAnnotationTextChange } = actions
+
+    item = {
+      id:       id,
+      type:     type,
+      body:     body,
+      nextBody: e.target.value,
+      position: position
+    }
+
+    handleAnnotationTextChange(item)
   }
 
   handleSubmitClick() {
-    const { position, handleSubmitClick } = this.props
-    const { text } = this.state
+    const { item, actions } = this.props
+    const { handleAnnotationSubmitClick } = actions
 
-    if (text.length != 0) {
-      handleSubmitClick(text, position)
-    }
+    handleAnnotationSubmitClick(item)
   }
 
   handleCancelClick() {
-    const { handleCancelClick } = this.props
-    handleCancelClick()
+    const { item, actions } = this.props
+    const { handleAnnotationCancelClick } = actions
+
+    handleAnnotationCancelClick(item)
   }
 
   render() {
-    const { position } = this.props
-    const { text } = this.state
+    const { type, position, body, nextBody } = this.props.item
     let classes = "submitButton"
+    let buttonText = type == "newAnnotation" ? "Create" : "Update"
 
-    if (text.length == 0) {
+    if (nextBody.length == 0 || body == nextBody) {
       classes += " disabled"
     }
 
     return(
       <div className="AnnotationForm">
-        <textarea placeholder="Annonation" onChange={ this.handleTextChange } />
+        <textarea value={ nextBody } placeholder="Annonation" onChange={ this.handleTextChange } />
 
         <div className="action">
-          <div className={ classes } onClick={ this.handleSubmitClick }>Create</div>
+          <div className={ classes } onClick={ this.handleSubmitClick }>{ buttonText }</div>
           <div className="cancelLink" onClick={ this.handleCancelClick }>Cancel</div>
         </div>
       </div>

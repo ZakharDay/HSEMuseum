@@ -14,12 +14,16 @@ class GalleryDropZone extends React.Component {
   }
 
   render() {
-    const { position, actions } = this.props
-    const { handleDragOver, handleNewAnnotationSubmitClick } = actions
+    const { item, actions } = this.props
+    const { handleDragOver } = actions
+    const { handleDrop } = this
 
     return(
-      <div className="GalleryDropZone" onDragOver={ handleDragOver } onDrop={ this.handleDrop }>
-        <NewAnnotationButton handleClick={ this.handleNewFormClick } />
+      <div className="GalleryDropZone" onDragOver={ handleDragOver } onDrop={ handleDrop }>
+        <NewAnnotationButton
+          item={ item }
+          actions={ actions }
+        />
       </div>
     )
   }

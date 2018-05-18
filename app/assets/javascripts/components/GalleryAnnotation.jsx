@@ -2,10 +2,6 @@ class GalleryAnnotation extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      view: 'show'
-    }
-
     this.handleDragStart = this.handleDragStart.bind(this)
     this.handleEditClick = this.handleEditClick.bind(this)
   }
@@ -18,45 +14,28 @@ class GalleryAnnotation extends React.Component {
   }
 
   handleEditClick() {
-    this.setState({
-      view: 'edit'
-    })
-  }
+    const { item, actions } = this.props
+    const { handleAnnotationEditClick } = actions
 
-  renderAnnotation() {
-    const { body } = this.props.item
-
-    return (
-      <div className="content">
-        <p>{ body }</p>
-      </div>
-    )
-  }
-
-  renderForm() {
-    const { position, actions } = this.props
-    const { handleNewAnnotationSubmitClick } = actions
-
-    return (
-      <EditAnnotationArea
-        position={ position }
-        handleSubmitClick={ handleEditAnnotationSubmitClick }
-        handleCancelClick={ handleEditAnnotationCancelClick }
-      />
-    )
+    handleAnnotationEditClick(item)
   }
 
   render() {
-    const { view } = this.state
+    const { body } = this.props.item
 
     return(
       <div
         className="GalleryAnnotation"
         draggable="true"
-        onDragStart={ this.handleDragStart }
-        onClick={ this.handleEditClick }>
+        onDragStart={ this.handleDragStart }>
 
-        { view == 'show' ? this.renderAnnotation() : this.renderForm() }
+        <div className="content">
+          <p>{ body }</p>
+        </div>
+
+        <div className="action">
+          <div className="editLink" onClick={ this.handleEditClick }>Edit</div>
+        </div>
 
       </div>
     )
